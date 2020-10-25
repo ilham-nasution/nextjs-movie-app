@@ -1,21 +1,22 @@
 export default function MovieDetail({ data }) {
-  console.log(data);
-  return <h1>Movie</h1>;
+  return (
+    <>
+      <h1>{data.title}</h1>
+      <img
+        src={`https://image.tmdb.org/t/p/w500${data.poster_path}`}
+        alt={data.title}
+      />
+      <h3>{data.overview}</h3>
+      <h5>{data.release_date}</h5>
+      <p>{data.vote_average}</p>
+    </>
+  );
 }
 
-export async function getStaticProps({ params }) {
+export async function getServerSideProps({ params }) {
   const res = await fetch(
     `https://api.themoviedb.org/3/movie/${params.id}?api_key=${process.env.API_KEY}`
   );
   const data = await res.json();
   return { props: { data } };
-}
-
-export async function getStaticPaths() {
-  const res = await fetch(
-    `https://api.themoviedb.org/3/movie/popular?api_key=${process.env.API_KEY}`
-  );
-  const data = await res.json();
-  const paths = data.results.map((movie) => `/movies/${movie.id}`);
-  return { paths, fallback: false };
 }
