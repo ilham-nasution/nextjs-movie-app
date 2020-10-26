@@ -1,5 +1,6 @@
 import styles from "../styles/Home.module.css";
 import Link from "next/link";
+import { motion } from "framer-motion";
 
 export default function Home({ data, query }) {
   const { results = [] } = data;
@@ -8,7 +9,7 @@ export default function Home({ data, query }) {
     <div className={styles.container}>
       <h1>Popular Movies</h1>
       <Link href={query.page > 1 ? `/?page=${parseInt(query.page) - 1}` : ""}>
-        <button disabled={!query || query.page < 2} className={styles.btn}>
+        <button disabled={!query.page || query.page < 2} className={styles.btn}>
           prev
         </button>
       </Link>
@@ -23,8 +24,19 @@ export default function Home({ data, query }) {
         </button>
       </Link>
       <div className={styles.grid}>
-        {results.map((movie) => (
-          <div key={movie.id} className={styles.list}>
+        {results.map((movie, index) => (
+          <motion.div
+            whileHover={{ scale: 1.1 }}
+            whileTap={{ scale: 0.8 }}
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            transition={{
+              opacity: { delay: index * 0.1, ease: "easeOut" },
+              scale: { ease: "easeOut" },
+            }}
+            key={movie.id}
+            className={styles.list}
+          >
             <Link href={`/movies/${movie.id}`}>
               <a>
                 <img
@@ -34,7 +46,7 @@ export default function Home({ data, query }) {
                 <h4>{movie.title}</h4>
               </a>
             </Link>
-          </div>
+          </motion.div>
         ))}
       </div>
     </div>
