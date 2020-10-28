@@ -1,6 +1,8 @@
+import styles from "../../styles/MovieDetail.module.css";
+
 export default function MovieDetail({ data }) {
   return (
-    <>
+    <div className={styles.container}>
       <h1>{data.title}</h1>
       <img
         src={`https://image.tmdb.org/t/p/w500${data.poster_path}`}
@@ -9,7 +11,7 @@ export default function MovieDetail({ data }) {
       <h3>{data.overview}</h3>
       <h5>{data.release_date}</h5>
       <p>{data.vote_average}</p>
-    </>
+    </div>
   );
 }
 
